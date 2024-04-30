@@ -1,11 +1,31 @@
 const express = require("express");
+const app = express();
 
 const { createClient } = require("@supabase/supabase-js");
 
 // Create a single supabase client for interacting with your database
 const supabase = createClient(
   "https://doqdbgszuybudatrzfey.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvcWRiZ3N6dXlidWRhdHJ6ZmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM4NTE3OTEsImV4cCI6MjAyOTQyNzc5MX0.YraNhFEA5c7fOrXF0zju13n89oFQ0QBFJW4zZGbD7Zo"
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvcWRiZ3N6dXlidWRhdHJ6ZmV5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcxMzg1MTc5MSwiZXhwIjoyMDI5NDI3NzkxfQ.Juzrdof2lHj5m-au0F3LPwCNponULweuYaw5ZgKjPWA"
 );
 
-console.log(supabase);
+app.get("/", async (req, res) => {
+  try {
+    const { data: users, error } = await supabase
+      .from("dummy shrath")
+      .select("*");
+    //console.log(data);
+
+    if (error) {
+      throw error;
+    }
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
+// console.log(supabase);
